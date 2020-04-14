@@ -29,7 +29,7 @@ namespace SBO.Hub.Helpers
             SecureSocketOptions secure = EmailConfigModel.SSL == "Y" ? SecureSocketOptions.SslOnConnect : SecureSocketOptions.None;
 
             Client.Connect(EmailConfigModel.Server, EmailConfigModel.Port, SecureSocketOptions.StartTls);
-            Client.Authenticate(EmailConfigModel.Email, Cryptography.Decrypt(EmailConfigModel.Password, EmailConfigModel.Email));
+            Client.Authenticate(EmailConfigModel.Email, EmailConfigModel.Password);
             Connected = true;
         }
 
@@ -47,16 +47,19 @@ namespace SBO.Hub.Helpers
             {
                 var message = new MimeMessage();
 
-                message.From.Add(new MailboxAddress("bringIT", EmailConfigModel.Email));
+                message.From.Add(new MailboxAddress(EmailConfigModel.Email));
                 message.To.Add(new MailboxAddress(email));
                 message.Subject = subject;
 
                 BodyBuilder bodyBuilder = new BodyBuilder();
                 bodyBuilder.HtmlBody = body;
 
-                foreach (var att in attachments)
+                if (attachments != null)
                 {
-                    bodyBuilder.Attachments.Add(att);
+                    foreach (var att in attachments)
+                    {
+                        bodyBuilder.Attachments.Add(att);
+                    }
                 }
 
                 message.Body = bodyBuilder.ToMessageBody();
