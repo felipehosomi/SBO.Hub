@@ -112,7 +112,8 @@ namespace SBO.Hub.Controllers
 
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load(String.Format(@"{0}Views\{0}", appPath, srfFileName));
-            SBOApp.Application.LoadBatchActions(xmlDoc.InnerXml);
+            string xml = xmlDoc.InnerXml;
+            SBOApp.Application.LoadBatchActions(ref xml);
         }
 
         public static Form GenerateForm(string srfPath, int formCount)

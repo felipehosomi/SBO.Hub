@@ -61,11 +61,26 @@
     <Reference Include="Antlr3.Runtime">
       <HintPath>References\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.5.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
+      <HintPath>..\..\Axe.Utils\packages\Portable.BouncyCastle.1.8.5\lib\net40\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
     <Reference Include="ConverterLib">
       <HintPath>References\ConverterLib.dll</HintPath>
     </Reference>
     <Reference Include="ExcelNumberFormat, Version=1.0.3.0, Culture=neutral, PublicKeyToken=23c6f5d73be07eca, processorArchitecture=MSIL">
       <HintPath>..\..\MaxFlex\CVA.Portal\packages\ExcelNumberFormat.1.0.3\lib\net20\ExcelNumberFormat.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\..\Produtos\Axe.BillCharge\Axe.BillCharge.Solution\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="MailKit, Version=2.5.0.0, Culture=neutral, PublicKeyToken=4e064fe7c44a8f1b, processorArchitecture=MSIL">
+      <HintPath>..\..\Axe.Utils\packages\MailKit.2.5.2\lib\net46\MailKit.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Win32.TaskScheduler, Version=2.8.18.0, Culture=neutral, PublicKeyToken=c416bc1b32d97233, processorArchitecture=MSIL">
+      <HintPath>..\..\Axe.Utils\packages\TaskScheduler.2.8.18\lib\net452\Microsoft.Win32.TaskScheduler.dll</HintPath>
+    </Reference>
+    <Reference Include="MimeKit, Version=2.5.0.0, Culture=neutral, PublicKeyToken=bede1c8a46c66814, processorArchitecture=MSIL">
+      <HintPath>..\..\Axe.Utils\packages\MimeKit.2.5.2\lib\net46\MimeKit.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -151,11 +166,19 @@
     <Compile Include="Attributes\TextFileAttribute.cs" />
     <Compile Include="Attributes\FormAttribute.cs" />
     <Compile Include="DAO\HanaDAO.cs" />
+    <Compile Include="Enums\TaskSchedulerFrequencyEnum.cs" />
     <Compile Include="Forms\SystemForm.cs" />
+    <Compile Include="Helpers\EmailHelper.cs" />
+    <Compile Include="Helpers\LogHelper.cs" />
+    <Compile Include="Helpers\WindowsTaskScheduler.cs" />
+    <Compile Include="Models\EmailConfigurationModel.cs" />
+    <Compile Include="Models\APIErrorModel.cs" />
+    <Compile Include="Models\JsonModel.cs" />
     <Compile Include="Models\ServiceLayer\ServiceLayerBaseModel.cs" />
     <Compile Include="Models\ServiceLayer\LoginModel.cs" />
     <Compile Include="Models\ServiceLayer\SBOErrorModel.cs" />
     <Compile Include="Models\ServiceLayer\SessionModel.cs" />
+    <Compile Include="Models\TaskSchedulerModel.cs" />
     <Compile Include="SBOHelpers\ServiceLayer.cs" />
     <Compile Include="SBOObjects\BPItemsCatalog.cs" />
     <Compile Include="SBOObjects\BusinessPlaceController.cs" />
@@ -229,6 +252,7 @@
     <Compile Include="UI\ColumnExtensions.cs" />
     <Compile Include="UI\ComboBoxColumnExtensions.cs" />
     <Compile Include="UI\ComboBoxExtensions.cs" />
+    <Compile Include="Util\APICallUtil.cs" />
     <Compile Include="Util\DialogUtil.cs" />
     <Compile Include="Util\ExtensionsUtil.cs" />
     <Compile Include="Helpers\TextFileHelper.cs" />

@@ -49,10 +49,13 @@ namespace SBO.Hub.Helpers
 
                 if (AskConfirmation)
                 {
-                    Confirmed = SBOApp.Application.MessageBox("A aplicação irá adicionar campos de usuário no banco de dados. Deseja continuar?", 2, "Sim", "Não") == 1;
-                    if (Confirmed == false)
+                    if (Confirmation())
                     {
                         return;
+                    }
+                    else
+                    {
+                        AskConfirmation = false;
                     }
                 }
                 CodErro = oUserTableMD.Add();
@@ -66,7 +69,7 @@ namespace SBO.Hub.Helpers
             {
                 Marshal.ReleaseComObject(oUserTableMD);
                 oUserTableMD = null;
-                //GC.Collect();
+                GC.Collect();
             }
         }
 
@@ -85,10 +88,13 @@ namespace SBO.Hub.Helpers
             {
                 if (AskConfirmation)
                 {
-                    Confirmed = SBOApp.Application.MessageBox("A aplicação irá adicionar campos de usuário no banco de dados. Deseja continuar?", 2, "Sim", "Não") == 1;
-                    if (Confirmed == false)
+                    if (Confirmation())
                     {
                         return;
+                    }
+                    else
+                    {
+                        AskConfirmation = false;
                     }
                 }
                 CodErro = oUserTableMD.Remove();
@@ -101,7 +107,7 @@ namespace SBO.Hub.Helpers
             }
             Marshal.ReleaseComObject(oUserTableMD);
             oUserTableMD = null;
-            //GC.Collect();
+            GC.Collect();
         }
 
         public void InsertUserField(string TableName, string FieldName, string FieldDescription, BoFieldTypes oType, BoFldSubTypes oSubType, int FieldSize, bool MandatoryYN = false, string DefaultValue = "", string linkedTable = "")
@@ -125,10 +131,13 @@ namespace SBO.Hub.Helpers
             }
             if (AskConfirmation)
             {
-                Confirmed = SBOApp.Application.MessageBox("A aplicação irá adicionar campos de usuário no banco de dados. Deseja continuar?", 2, "Sim", "Não") == 1;
-                if (Confirmed == false)
+                if (Confirmation())
                 {
                     return;
+                }
+                else
+                {
+                    AskConfirmation = false;
                 }
             }
 
@@ -156,7 +165,7 @@ namespace SBO.Hub.Helpers
 
             Marshal.ReleaseComObject(oUserFieldsMD);
             oUserFieldsMD = null;
-            //GC.Collect();
+            GC.Collect();
         }
 
 
@@ -208,7 +217,7 @@ namespace SBO.Hub.Helpers
 
             Marshal.ReleaseComObject(oUserFieldsMD);
             oUserFieldsMD = null;
-            //GC.Collect();
+            GC.Collect();
         }
 
         public void RemoveUserField(string TableName, string FieldName)
@@ -230,10 +239,13 @@ namespace SBO.Hub.Helpers
                 {
                     if (AskConfirmation)
                     {
-                        Confirmed = SBOApp.Application.MessageBox("A aplicação irá adicionar campos de usuário no banco de dados. Deseja continuar?", 2, "Sim", "Não") == 1;
-                        if (Confirmed == false)
+                        if (Confirmation())
                         {
                             return;
+                        }
+                        else
+                        {
+                            AskConfirmation = false;
                         }
                     }
 
@@ -250,7 +262,7 @@ namespace SBO.Hub.Helpers
 
             Marshal.ReleaseComObject(oUserFieldsMD);
             oUserFieldsMD = null;
-            //GC.Collect();
+            GC.Collect();
         }
 
         public void AddValidValueToUserField(string TableName, string FieldName, Dictionary<string, string> values, string defaultValue = "")
@@ -312,10 +324,13 @@ namespace SBO.Hub.Helpers
                 {
                     if (AskConfirmation)
                     {
-                        Confirmed = SBOApp.Application.MessageBox("A aplicação irá adicionar campos de usuário no banco de dados. Deseja continuar?", 2, "Sim", "Não") == 1;
-                        if (Confirmed == false)
+                        if (Confirmation())
                         {
                             return;
+                        }
+                        else
+                        {
+                            AskConfirmation = false;
                         }
                     }
 
@@ -331,7 +346,7 @@ namespace SBO.Hub.Helpers
             {
                 Marshal.ReleaseComObject(oUserFieldsMD);
                 oUserFieldsMD = null;
-                //GC.Collect();
+                GC.Collect();
             }
         }
 
@@ -369,10 +384,13 @@ namespace SBO.Hub.Helpers
 
                 if (AskConfirmation)
                 {
-                    Confirmed = SBOApp.Application.MessageBox("A aplicação irá adicionar campos de usuário no banco de dados. Deseja continuar?", 2, "Sim", "Não") == 1;
-                    if (Confirmed == false)
+                    if (Confirmation())
                     {
                         return;
+                    }
+                    else
+                    {
+                        AskConfirmation = false;
                     }
                 }
 
@@ -408,7 +426,7 @@ namespace SBO.Hub.Helpers
             {
                 Marshal.ReleaseComObject(oUserFieldsMD);
                 oUserFieldsMD = null;
-                //GC.Collect();
+                GC.Collect();
             }
         }
 
@@ -447,10 +465,13 @@ namespace SBO.Hub.Helpers
                     {
                         if (AskConfirmation)
                         {
-                            Confirmed = SBOApp.Application.MessageBox("A aplicação irá adicionar campos de usuário no banco de dados. Deseja continuar?", 2, "Sim", "Não") == 1;
-                            if (Confirmed == false)
+                            if (Confirmation())
                             {
                                 return;
+                            }
+                            else
+                            {
+                                AskConfirmation = false;
                             }
                         }
                         CodErro = oUserFieldsMD.Update();
@@ -466,7 +487,7 @@ namespace SBO.Hub.Helpers
             {
                 Marshal.ReleaseComObject(oUserFieldsMD);
                 oUserFieldsMD = null;
-                //GC.Collect();
+                GC.Collect();
             }
         }
 
@@ -504,7 +525,7 @@ namespace SBO.Hub.Helpers
             {
                 Marshal.ReleaseComObject(oRecordset);
                 oRecordset = null;
-                //GC.Collect();
+                GC.Collect();
             }
             return list;
         }
@@ -525,76 +546,87 @@ namespace SBO.Hub.Helpers
                 TableName = ObjectName;
 
             UserObjectsMD UserObjectsMD = (UserObjectsMD)SBOApp.Company.GetBusinessObject(BoObjectTypes.oUserObjectsMD);
-
-            // Remove a arroba do usertable Name
-            TableName = TableName.Replace("@", "");
-
-            if (UserObjectsMD.GetByKey(ObjectName))
+            try
             {
-                return;
-            }
+                // Remove a arroba do usertable Name
+                TableName = TableName.Replace("@", "");
 
-            UserObjectsMD.Code = ObjectName;
-            UserObjectsMD.Name = ObjectDesc;
-            UserObjectsMD.ObjectType = ObjectType;
-            UserObjectsMD.TableName = TableName;
-
-            //UserObjectsMD.CanArchive = GetSapBoolean(CanArchive);
-            UserObjectsMD.CanCancel = GetSapBoolean(CanCancel);
-            UserObjectsMD.CanClose = GetSapBoolean(CanClose);
-            UserObjectsMD.CanCreateDefaultForm = GetSapBoolean(CanCreateDefaultForm);
-            UserObjectsMD.CanDelete = GetSapBoolean(CanDelete);
-            UserObjectsMD.CanFind = GetSapBoolean(CanFind);
-            UserObjectsMD.CanLog = GetSapBoolean(CanLog);
-            UserObjectsMD.CanYearTransfer = GetSapBoolean(CanYearTransfer);
-
-            if (CanFind)
-            {
-                UserObjectsMD.FindColumns.ColumnAlias = "Code";
-                UserObjectsMD.FindColumns.ColumnDescription = "Código";
-                UserObjectsMD.FindColumns.Add();
-            }
-
-            if (CanCreateDefaultForm)
-            {
-                UserObjectsMD.CanCreateDefaultForm = BoYesNoEnum.tYES;
-                UserObjectsMD.CanCancel = GetSapBoolean(CanCancel);
-                UserObjectsMD.CanClose = GetSapBoolean(CanClose);
-                UserObjectsMD.CanDelete = GetSapBoolean(CanDelete);
-                UserObjectsMD.CanFind = GetSapBoolean(CanFind);
-                UserObjectsMD.ExtensionName = "";
-                UserObjectsMD.OverwriteDllfile = BoYesNoEnum.tYES;
-                UserObjectsMD.ManageSeries = BoYesNoEnum.tYES;
-                UserObjectsMD.UseUniqueFormType = BoYesNoEnum.tYES;
-                UserObjectsMD.EnableEnhancedForm = BoYesNoEnum.tNO;
-                UserObjectsMD.RebuildEnhancedForm = BoYesNoEnum.tNO;
-                UserObjectsMD.FormSRF = srfFile;
-
-                UserObjectsMD.FormColumns.FormColumnAlias = "Code";
-                UserObjectsMD.FormColumns.FormColumnDescription = "Código";
-                UserObjectsMD.FormColumns.Add();
-
-                UserObjectsMD.FatherMenuID = FatherMenuId;
-                UserObjectsMD.Position = menuPosition;
-                UserObjectsMD.MenuItem = BoYesNoEnum.tYES;
-                UserObjectsMD.MenuUID = ObjectName;
-                UserObjectsMD.MenuCaption = ObjectDesc;
-            }
-
-            if (AskConfirmation)
-            {
-                Confirmed = SBOApp.Application.MessageBox("A aplicação irá adicionar campos de usuário no banco de dados. Deseja continuar?", 2, "Sim", "Não") == 1;
-                if (Confirmed == false)
+                if (UserObjectsMD.GetByKey(ObjectName))
                 {
                     return;
                 }
-            }
-            CodErro = UserObjectsMD.Add();
-            this.ValidateAction();
 
-            Marshal.ReleaseComObject(UserObjectsMD);
-            UserObjectsMD = null;
-            //GC.Collect();
+                UserObjectsMD.Code = ObjectName;
+                UserObjectsMD.Name = ObjectDesc;
+                UserObjectsMD.ObjectType = ObjectType;
+                UserObjectsMD.TableName = TableName;
+
+                //UserObjectsMD.CanArchive = GetSapBoolean(CanArchive);
+                UserObjectsMD.CanCancel = GetSapBoolean(CanCancel);
+                UserObjectsMD.CanClose = GetSapBoolean(CanClose);
+                UserObjectsMD.CanCreateDefaultForm = GetSapBoolean(CanCreateDefaultForm);
+                UserObjectsMD.CanDelete = GetSapBoolean(CanDelete);
+                UserObjectsMD.CanFind = GetSapBoolean(CanFind);
+                UserObjectsMD.CanLog = GetSapBoolean(CanLog);
+                UserObjectsMD.CanYearTransfer = GetSapBoolean(CanYearTransfer);
+
+                if (CanFind)
+                {
+                    UserObjectsMD.FindColumns.ColumnAlias = "Code";
+                    UserObjectsMD.FindColumns.ColumnDescription = "Código";
+                    UserObjectsMD.FindColumns.Add();
+                }
+
+                if (CanCreateDefaultForm)
+                {
+                    UserObjectsMD.CanCreateDefaultForm = BoYesNoEnum.tYES;
+                    UserObjectsMD.CanCancel = GetSapBoolean(CanCancel);
+                    UserObjectsMD.CanClose = GetSapBoolean(CanClose);
+                    UserObjectsMD.CanDelete = GetSapBoolean(CanDelete);
+                    UserObjectsMD.CanFind = GetSapBoolean(CanFind);
+                    UserObjectsMD.ExtensionName = "";
+                    UserObjectsMD.OverwriteDllfile = BoYesNoEnum.tYES;
+                    UserObjectsMD.ManageSeries = BoYesNoEnum.tYES;
+                    UserObjectsMD.UseUniqueFormType = BoYesNoEnum.tYES;
+                    UserObjectsMD.EnableEnhancedForm = BoYesNoEnum.tNO;
+                    UserObjectsMD.RebuildEnhancedForm = BoYesNoEnum.tNO;
+                    UserObjectsMD.FormSRF = srfFile;
+
+                    UserObjectsMD.FormColumns.FormColumnAlias = "Code";
+                    UserObjectsMD.FormColumns.FormColumnDescription = "Código";
+                    UserObjectsMD.FormColumns.Add();
+
+                    UserObjectsMD.FatherMenuID = FatherMenuId;
+                    UserObjectsMD.Position = menuPosition;
+                    UserObjectsMD.MenuItem = BoYesNoEnum.tYES;
+                    UserObjectsMD.MenuUID = ObjectName;
+                    UserObjectsMD.MenuCaption = ObjectDesc;
+                }
+
+                if (AskConfirmation)
+                {
+                    if (Confirmation())
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        AskConfirmation = false;
+                    }
+                }
+                CodErro = UserObjectsMD.Add();
+                this.ValidateAction();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                Marshal.ReleaseComObject(UserObjectsMD);
+                UserObjectsMD = null;
+                GC.Collect();
+            }
         }
 
         public void RemoveUserObject(string ObjectName)
@@ -609,10 +641,13 @@ namespace SBO.Hub.Helpers
             {
                 if (AskConfirmation)
                 {
-                    Confirmed = SBOApp.Application.MessageBox("A aplicação irá adicionar campos de usuário no banco de dados. Deseja continuar?", 2, "Sim", "Não") == 1;
-                    if (Confirmed == false)
+                    if (Confirmation())
                     {
                         return;
+                    }
+                    else
+                    {
+                        AskConfirmation = false;
                     }
                 }
 
@@ -621,7 +656,7 @@ namespace SBO.Hub.Helpers
             }
             Marshal.ReleaseComObject(UserObjectsMD);
             UserObjectsMD = null;
-            //GC.Collect();
+            GC.Collect();
         }
 
         public void AddChildTableToUserObject(string ObjectName, string ChildTableName)
@@ -652,8 +687,7 @@ namespace SBO.Hub.Helpers
             {
                 if (AskConfirmation)
                 {
-                    Confirmed = SBOApp.Application.MessageBox("A aplicação irá adicionar campos de usuário no banco de dados. Deseja continuar?", 2, "Sim", "Não") == 1;
-                    if (Confirmed == false)
+                    if (Confirmation())
                     {
                         return;
                     }
@@ -668,7 +702,7 @@ namespace SBO.Hub.Helpers
 
             Marshal.ReleaseComObject(UserObjectsMD);
             UserObjectsMD = null;
-            //GC.Collect();
+            GC.Collect();
         }
 
         public static string QueryForValue(string Sql)
@@ -696,7 +730,7 @@ namespace SBO.Hub.Helpers
             {
                 Marshal.ReleaseComObject(oRecordset);
                 oRecordset = null;
-                //GC.Collect();
+                GC.Collect();
 
             }
 
@@ -719,7 +753,7 @@ namespace SBO.Hub.Helpers
 
             Marshal.ReleaseComObject(rst);
             rst = null;
-            //GC.Collect();
+            GC.Collect();
 
             return exists;
         }
@@ -806,8 +840,7 @@ namespace SBO.Hub.Helpers
                 {
                     if (AskConfirmation)
                     {
-                        Confirmed = SBOApp.Application.MessageBox("A aplicação irá adicionar campos de usuário no banco de dados. Deseja continuar?", 2, "Sim", "Não") == 1;
-                        if (Confirmed == false)
+                        if (Confirmation())
                         {
                             return;
                         }
@@ -821,6 +854,18 @@ namespace SBO.Hub.Helpers
             Marshal.ReleaseComObject(userObjectsMD);
             userObjectsMD = null;
 
+        }
+
+        public void ShowLog()
+        {
+            if (LogList.Count > 0)
+            {
+                SBOApp.Application.MessageBox("Ocorreram erros na criação de campos de usuário. Verifique o log de mensagens do sistema");
+                foreach (var log in LogList)
+                {
+                    SBOApp.Application.SetStatusBarMessage(log);
+                }
+            }
         }
 
         public Dictionary<string, string> GetTableFields(string tableName)
@@ -839,7 +884,7 @@ namespace SBO.Hub.Helpers
 
             Marshal.ReleaseComObject(rs);
             rs = null;
-            //GC.Collect();
+            GC.Collect();
             return fields;
         }
 
@@ -850,6 +895,12 @@ namespace SBO.Hub.Helpers
             else
                 return BoYesNoEnum.tNO;
 
+        }
+
+        private bool Confirmation()
+        {
+            Confirmed = SBOApp.Application.MessageBox("A aplicação irá adicionar campos de usuário no banco de dados. Deseja continuar?", 2, "Sim", "Não") == 1;
+            return Confirmed.Value;
         }
     }
 }

@@ -23,6 +23,11 @@ namespace SBO.Hub.Helpers
             }
         }
 
+        public static void SetFormEvent(string v, object et_CLICK)
+        {
+            throw new NotImplementedException();
+        }
+
         public static void CreateDefaultEvents()
         {
             EventFilters = new EventFilters();
