@@ -555,7 +555,7 @@ namespace SBO.Hub.DAO
             }
             catch (Exception e)
             {
-
+                throw e;
             }
             return modelList;
         }

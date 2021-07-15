@@ -3,6 +3,7 @@ using SBO.Hub.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Reflection;
 using System.Text;
 
@@ -43,7 +44,7 @@ namespace SBO.Hub.DAO
         public HanaDAO(string database, string server, string dbUser, string dbPassword)
         {
             Database = database;
-            ConnectionString = $"Server={server};UserID={dbUser};Password={dbPassword}";
+            ConnectionString = $"Server={server};UserID={dbUser};Password={dbPassword};CurrentSchema={database}";
         }
 
         #region GetNextCode
@@ -385,7 +386,7 @@ namespace SBO.Hub.DAO
 
         public void Connect()
         {
-            if (Connection == null || !ConnectionString.StartsWith(Connection.ConnectionString))
+            if (Connection == null)
             {
                 Connection = new HanaConnection();
             }
@@ -624,7 +625,7 @@ namespace SBO.Hub.DAO
 
                                             if (dbType == typeof(decimal) && property.PropertyType == typeof(double))
                                             {
-                                                property.SetValue(model, Convert.ToDouble(dr.GetValue(index).ToString()), null);
+                                                property.SetValue(model, Convert.ToDouble(dr.GetValue(index).ToString(), CultureInfo.InvariantCulture), null);
                                             }
                                             else
                                             {
@@ -682,16 +683,23 @@ namespace SBO.Hub.DAO
                             throw new Exception($"Propriedade {dr.GetName(i)} não encontrada no model");
                         }
 
-                        if (!dr.IsDBNull(i))
+                        try
                         {
-                            if (dr.GetFieldType(i) == typeof(Decimal))
+                            if (!dr.IsDBNull(i))
                             {
-                                property.SetValue(model, Convert.ToDouble(dr.GetValue(i).ToString()), null);
+                                if (dr.GetFieldType(i) == typeof(Decimal))
+                                {
+                                    property.SetValue(model, Convert.ToDouble(dr.GetValue(i).ToString(), CultureInfo.InvariantCulture), null);
+                                }
+                                else
+                                {
+                                    property.SetValue(model, dr.GetValue(i), null);
+                                }
                             }
-                            else
-                            {
-                                property.SetValue(model, dr.GetValue(i), null);
-                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception($"{property.Name}: {ex.Message}");
                         }
                     }
                     modelList.Add(model);

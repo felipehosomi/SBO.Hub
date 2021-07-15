@@ -5,6 +5,7 @@ namespace SBO.Hub.Models
     public class EmailConfigurationModel
     {
         public string Code { get; set; }
+        public string Name { get; set; }
         public string Server { get; set; }
         public int Port { get; set; }
         public string SSL { get; set; }

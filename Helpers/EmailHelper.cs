@@ -25,6 +25,7 @@ namespace SBO.Hub.Helpers
         public void Connect()
         {
             Client = new SmtpClient();
+            Client.ServerCertificateValidationCallback = (s, c, h, e) => true;
 
             SecureSocketOptions secure = EmailConfigModel.SSL == "Y" ? SecureSocketOptions.SslOnConnect : SecureSocketOptions.None;
 
@@ -35,20 +36,49 @@ namespace SBO.Hub.Helpers
 
         public void Disconnect()
         {
-            Client.Disconnect(true);
-            Client.Dispose();
+            if (Connected)
+            {
+                Client.Disconnect(true);
+                Client.Dispose();
+            }
             Connected = false;
         }
 
-        public string SendEmail(string subject, string body, string email, List<string> attachments = null)
+        public string SendEmail(string subject, string body, List<string> emails, List<string> ccEmails = null, List<string> bccEmails = null, List<string> attachments = null)
         {
             string msg = String.Empty;
             try
             {
                 var message = new MimeMessage();
 
-                message.From.Add(new MailboxAddress(EmailConfigModel.Email));
-                message.To.Add(new MailboxAddress(email));
+                if (!String.IsNullOrEmpty(EmailConfigModel.Name))
+                {
+                    message.From.Add(new MailboxAddress(EmailConfigModel.Name, EmailConfigModel.Email));
+                }
+                else
+                {
+                    message.From.Add(new MailboxAddress(EmailConfigModel.Email));
+                }
+
+                foreach (var email in emails)
+                {
+                    message.To.Add(new MailboxAddress(email.Trim()));
+                }
+                if (ccEmails != null)
+                {
+                    foreach (var email in ccEmails)
+                    {
+                        message.Cc.Add(new MailboxAddress(email.Trim()));
+                    }
+                }
+                if (bccEmails != null)
+                {
+                    foreach (var email in bccEmails)
+                    {
+                        message.Bcc.Add(new MailboxAddress(email.Trim()));
+                    }
+                }
+
                 message.Subject = subject;
 
                 BodyBuilder bodyBuilder = new BodyBuilder();
@@ -71,6 +101,23 @@ namespace SBO.Hub.Helpers
                 msg = ex.Message;
             }
             return msg;
+        }
+
+        public string SendEmail(string subject, string body, string email, List<string> attachments = null)
+        {
+            if (String.IsNullOrEmpty(email))
+            {
+                return "";
+            }
+
+            if (!this.Connected)
+            {
+                this.Connect();
+            }
+            
+            List<string> list = new List<string>();
+            list.Add(email);
+            return this.SendEmail(subject, body, list, attachments: attachments);
         }
     }
 }

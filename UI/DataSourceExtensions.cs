@@ -53,7 +53,7 @@ namespace SBO.Hub.UI
                                 hubModel.ColumnName = property.Name;
                             }
 
-                            string value = dataSource.GetValue(hubModel.ColumnName, 0);
+                            string value = dataSource.GetValue(hubModel.ColumnName, i);
                             if (String.IsNullOrEmpty(value))
                             {
                                 continue;

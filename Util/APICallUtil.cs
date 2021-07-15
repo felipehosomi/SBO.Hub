@@ -11,13 +11,35 @@ namespace SBO.Hub.Util
 {
     public class APICallUtil
     {
-        string ApiUrl = System.Configuration.ConfigurationManager.AppSettings["WebApiURL"];
+        public string ApiUrl;
+        public string MediaType;
+
+        public APICallUtil(string apiUrl = "", string mediaType = "application/json")
+        {
+            MediaType = mediaType;
+            if (String.IsNullOrEmpty(apiUrl))
+            {
+                ApiUrl = System.Configuration.ConfigurationManager.AppSettings["WebApiURL"];
+            }
+            else
+            {
+                ApiUrl = apiUrl;
+            }
+        }
 
         public T Get<T>(string url) where T : class
         {
             return Task.Run(async () =>
             {
                 return await GetAsync<T>(url);
+            }).Result;
+        }
+
+        public string Post<T>(string controller, T item) where T : class
+        {
+            return Task.Run(async () =>
+            {
+                return await PostAsync(controller, item);
             }).Result;
         }
 
@@ -28,7 +50,7 @@ namespace SBO.Hub.Util
             {
                 var client = new HttpClient();
 
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaType));
                 var response = await client.GetAsync(url);
 
                 JsonResult = response.Content.ReadAsStringAsync().Result;
@@ -70,7 +92,7 @@ namespace SBO.Hub.Util
 
                 var client = new HttpClient();
 
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaType));
                 var response = await client.GetAsync(url);
 
                 JsonResult = response.Content.ReadAsStringAsync().Result;
@@ -110,7 +132,7 @@ namespace SBO.Hub.Util
             {
                 var client = new HttpClient();
 
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaType));
 
                 string url = string.Format(ApiUrl + "/{0}?type=json&{1}", controller, param);
                 var response = await client.GetAsync(url);
@@ -151,7 +173,7 @@ namespace SBO.Hub.Util
             var client = new HttpClient();
 
             var json = JsonConvert.SerializeObject(item);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var content = new StringContent(json, Encoding.UTF8, MediaType);
             HttpResponseMessage response = await client.PutAsync(string.Format(ApiUrl + "/{0}?{1}", controller, param), content);
             if (response.IsSuccessStatusCode)
             {
@@ -184,8 +206,13 @@ namespace SBO.Hub.Util
             var client = new HttpClient();
 
             var json = JsonConvert.SerializeObject(item);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            HttpResponseMessage response = await client.PostAsync(string.Format(ApiUrl + "/{0}", controller), content);
+            var content = new StringContent(json, Encoding.UTF8, MediaType);
+            if (!String.IsNullOrEmpty(controller))
+            {
+                ApiUrl = string.Format(ApiUrl + "/{0}", controller);
+            }
+
+            HttpResponseMessage response = await client.PostAsync(ApiUrl, content);
             if (response.IsSuccessStatusCode)
             {
                 return "";
@@ -203,7 +230,8 @@ namespace SBO.Hub.Util
 
             var client = new HttpClient();
 
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaType));
+
             var response = await client.DeleteAsync(url);
 
             if (response.IsSuccessStatusCode)

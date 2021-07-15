@@ -23,10 +23,11 @@ namespace SBO.Hub.Helpers
             }
         }
 
-        public static void SetFormEvent(string v, object et_CLICK)
+        public static void SetFormEvent(string v, object et_FORM_DATA_ADD)
         {
             throw new NotImplementedException();
         }
+
 
         public static void CreateDefaultEvents()
         {

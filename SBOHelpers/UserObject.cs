@@ -764,20 +764,37 @@ namespace SBO.Hub.Helpers
             {
                 return;
             }
+
+            string Sql = " SELECT KeyId FROM OUKD WHERE TableName = '{0}' AND KeyName = '{1}' ";
+            Sql = String.Format(Sql, TableName, KeyName);
+            string FieldId = QueryForValue(Sql);
+
+            if (FieldId != null)
+            {
+                return;
+            }
+
             UserKeysMD oUserKeysMD = (UserKeysMD)SBOApp.Company.GetBusinessObject(BoObjectTypes.oUserKeys);
 
-            oUserKeysMD.TableName = TableName;
-            oUserKeysMD.KeyName = KeyName;
-
             string[] arrAux = Fields.Split(Convert.ToChar(","));
+            bool first = true;
+
             for (int i = 0; i < arrAux.Length; i++)
             {
-                if (i > 0)
+                if (first)
+                {
+                    first = false;
+                }
+                else
+                {
                     oUserKeysMD.Elements.Add();
-
+                }
+                    
                 oUserKeysMD.Elements.ColumnAlias = arrAux[i].Trim();
             }
 
+            oUserKeysMD.TableName = TableName;
+            oUserKeysMD.KeyName = KeyName;
             oUserKeysMD.Unique = GetSapBoolean(isUnique);
 
             CodErro = oUserKeysMD.Add();
