@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using SBO.Hub.DAO.Resources;
 
 namespace SBO.Hub.Helpers
 {
@@ -121,7 +122,7 @@ namespace SBO.Hub.Helpers
                 FieldDescription = FieldDescription.Substring(0, 30);
             }
 
-            string Sql = " SELECT FieldID FROM CUFD WHERE TableID = '{0}' AND AliasID = '{1}' ";
+            string Sql = Commands.Resource.GetString("UserField_Get");
             Sql = String.Format(Sql, TableName, FieldName);
             string FieldId = QueryForValue(Sql);
 
@@ -183,7 +184,7 @@ namespace SBO.Hub.Helpers
             UserFieldsMD oUserFieldsMD = ((UserFieldsMD)(SBOApp.Company.GetBusinessObject(BoObjectTypes.oUserFields)));
             bool bUpdate;
 
-            string Sql = " SELECT FieldId FROM CUFD WHERE TableID = '{0}' AND AliasID = '{1}' ";
+            string Sql = Commands.Resource.GetString("UserField_Get");
             Sql = String.Format(Sql, TableName, FieldName);
             string FieldId = QueryForValue(Sql);
 
@@ -228,7 +229,7 @@ namespace SBO.Hub.Helpers
             }
             UserFieldsMD oUserFieldsMD = ((UserFieldsMD)(SBOApp.Company.GetBusinessObject(BoObjectTypes.oUserFields)));
 
-            string Sql = " SELECT FieldID FROM CUFD WHERE TableID = '{0}' AND AliasID = '{1}' ";
+            string Sql = Commands.Resource.GetString("UserField_Get");
             Sql = String.Format(Sql, TableName, FieldName);
 
             string FieldId = QueryForValue(Sql);
@@ -274,7 +275,7 @@ namespace SBO.Hub.Helpers
             UserFieldsMD oUserFieldsMD = ((UserFieldsMD)(SBOApp.Company.GetBusinessObject(BoObjectTypes.oUserFields)));
             try
             {
-                string sql = @" SELECT FieldID FROM CUFD WHERE TableID = '{0}' AND AliasID = '{1}' ";
+                string sql = Commands.Resource.GetString("UserField_Get");
                 sql = String.Format(sql, TableName, FieldName.Replace("U_", ""));
                 string FieldId = QueryForValue(sql);
 
@@ -287,13 +288,7 @@ namespace SBO.Hub.Helpers
 
                 foreach (var item in values)
                 {
-                    sql = @" SELECT UFD1.IndexID FROM CUFD
-                            INNER JOIN UFD1 
-                                ON CUFD.TableID = UFD1.TableID 
-                                AND CUFD.FieldID = UFD1.FieldID
-                         WHERE CUFD.TableID = '{0}' 
-                         AND CUFD.AliasID = '{1}' 
-                         AND UFD1.FldValue = '{2}'";
+                    sql = Commands.Resource.GetString("UserField_GetValidValues");
                     sql = String.Format(sql, TableName, FieldName.Replace("U_", ""), item.Key);
 
                     string IndexId = QueryForValue(sql);
@@ -366,13 +361,7 @@ namespace SBO.Hub.Helpers
             UserFieldsMD oUserFieldsMD = ((UserFieldsMD)(SBOApp.Company.GetBusinessObject(BoObjectTypes.oUserFields)));
             try
             {
-                string sql = @" SELECT UFD1.IndexID FROM CUFD
-                            INNER JOIN UFD1 
-                                ON CUFD.TableID = UFD1.TableID 
-                                AND CUFD.FieldID = UFD1.FieldID
-                         WHERE CUFD.TableID = '{0}' 
-                         AND CUFD.AliasID = '{1}' 
-                         AND UFD1.FldValue = '{2}'";
+                string sql = Commands.Resource.GetString("UserField_GetValidValues");
                 sql = String.Format(sql, TableName, FieldName.Replace("U_", ""), Value);
 
                 string IndexId = QueryForValue(sql);
@@ -394,7 +383,7 @@ namespace SBO.Hub.Helpers
                     }
                 }
 
-                sql = @" SELECT FieldID FROM CUFD WHERE TableID = '{0}' AND AliasID = '{1}' ";
+                sql = Commands.Resource.GetString("UserField_Get");
                 sql = String.Format(sql, TableName, FieldName.Replace("U_", ""));
                 string FieldId = QueryForValue(sql);
 
@@ -439,7 +428,7 @@ namespace SBO.Hub.Helpers
             UserFieldsMD oUserFieldsMD = ((UserFieldsMD)(SBOApp.Company.GetBusinessObject(BoObjectTypes.oUserFields)));
             try
             {
-                string sql = @" SELECT FieldId FROM CUFD WHERE TableID = '{0}' AND AliasID = '{1}' ";
+                string sql = Commands.Resource.GetString("UserField_Get");
                 sql = String.Format(sql, tableName, fieldName.Replace("U_", ""));
                 string fieldId = QueryForValue(sql);
                 List<ValidValueModel> validValuesList = this.GetValidValues(tableName, fieldId, baseTable, valueField, descriptionField);

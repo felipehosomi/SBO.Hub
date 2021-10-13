@@ -2,7 +2,7 @@
 
 namespace SBO.Hub.Attributes
 {
-    [AttributeUsage(AttributeTargets.Class)]
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class FormAttribute : Attribute
     {
         public string FormId { get; set; }

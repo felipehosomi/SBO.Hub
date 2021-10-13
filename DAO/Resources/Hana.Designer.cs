@@ -22,14 +22,14 @@ namespace SBO.Hub.DAO.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class SQL {
+    internal class Hana {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal SQL() {
+        internal Hana() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace SBO.Hub.DAO.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SBO.Hub.DAO.Resources.SQL", typeof(SQL).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SBO.Hub.DAO.Resources.Hana", typeof(Hana).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,28 +61,7 @@ namespace SBO.Hub.DAO.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to IF EXISTS (SELECT * FROM sys.objects WHERE name = &apos;{0}&apos;)
-        ///	SELECT 1
-        ///ELSE
-        ///	SELECT 0.
-        /// </summary>
-        internal static string Sproc_Exists {
-            get {
-                return ResourceManager.GetString("Sproc_Exists", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to SELECT TOP 1 1 FROM CUFD WHERE TableID = &apos;{0}&apos; AND AliasID = &apos;{1}&apos;.
-        /// </summary>
-        internal static string UserField_Exists {
-            get {
-                return ResourceManager.GetString("UserField_Exists", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to SELECT FieldID FROM CUFD WHERE TableID = &apos;{0}&apos; AND AliasID = &apos;{1}&apos;.
+        ///   Looks up a localized string similar to SELECT &quot;FieldID&quot; FROM CUFD WHERE &quot;TableID&quot; = &apos;{0}&apos; AND &quot;AliasID&quot; = &apos;{1}&apos;;.
         /// </summary>
         internal static string UserField_Get {
             get {
@@ -91,7 +70,7 @@ namespace SBO.Hub.DAO.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SELECT * FROM CUFD WHERE TableID = &apos;{0}&apos;.
+        ///   Looks up a localized string similar to SELECT *  FROM CUFD  WHERE &quot;TableID&quot; = &apos;{0}&apos;;.
         /// </summary>
         internal static string UserField_GetByTable {
             get {
@@ -100,7 +79,7 @@ namespace SBO.Hub.DAO.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SELECT KeyId FROM OUKD WHERE TableName = &apos;{0}&apos; AND KeyName = &apos;{1}&apos;.
+        ///   Looks up a localized string similar to SELECT &quot;KeyId&quot;  FROM OUKD  WHERE &quot;TableName&quot; = &apos;{0}&apos; AND &quot;KeyName&quot; = &apos;{1}&apos;;.
         /// </summary>
         internal static string UserField_GetKey {
             get {
@@ -109,33 +88,14 @@ namespace SBO.Hub.DAO.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SELECT UFD1.IndexID FROM CUFD
-        ///                            INNER JOIN UFD1 
-        ///                                ON CUFD.TableID = UFD1.TableID 
-        ///                                AND CUFD.FieldID = UFD1.FieldID
-        ///                         WHERE CUFD.TableID = &apos;{0}&apos; 
-        ///                         AND CUFD.AliasID = &apos;{1}&apos; 
-        ///                         AND UFD1.FldValue = &apos;{2}&apos;.
+        ///   Looks up a localized string similar to SELECT UFD1.&quot;IndexID&quot; 
+        ///FROM CUFD 
+        ///    INNER JOIN UFD1 ON CUFD.&quot;TableID&quot; = UFD1.&quot;TableID&quot; AND CUFD.&quot;FieldID&quot; = UFD1.&quot;FieldID&quot; 
+        ///WHERE CUFD.&quot;TableID&quot; = &apos;{0}&apos; AND CUFD.&quot;AliasID&quot; = &apos;{1}&apos; AND UFD1.&quot;FldValue&quot; = &apos;{2}&apos;;.
         /// </summary>
         internal static string UserField_GetValidValues {
             get {
                 return ResourceManager.GetString("UserField_GetValidValues", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to SELECT {0}, {1} FROM [{2}]
-        ///                                 WHERE NOT EXISTS
-        ///                                 (
-        ///                                    SELECT TOP 1 1 FROM UFD1
-        ///                                    WHERE TableID = &apos;{3}&apos;
-        ///                                        AND FieldID = {4}
-        ///                                        AND FldValue = {5}
-        ///                                 ).
-        /// </summary>
-        internal static string UserField_GetValidValuesFromUserTable {
-            get {
-                return ResourceManager.GetString("UserField_GetValidValuesFromUserTable", resourceCulture);
             }
         }
     }

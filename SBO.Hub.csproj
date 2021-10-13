@@ -14,14 +14,10 @@
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
-    <SccProjectName>
-    </SccProjectName>
-    <SccLocalPath>
-    </SccLocalPath>
-    <SccAuxPath>
-    </SccAuxPath>
-    <SccProvider>
-    </SccProvider>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
@@ -59,17 +55,27 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
-      <HintPath>..\Cointer\CVA.Cointer.Solution\packages\Antlr3.Runtime.3.5.1\lib\net40-client\Antlr3.Runtime.dll</HintPath>
+      <HintPath>..\..\Cointer\CVA.Cointer.Solution\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="BouncyCastle.Crypto, Version=1.8.5.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
       <HintPath>..\..\Axe.Utils\packages\Portable.BouncyCastle.1.8.5\lib\net40\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
-    <Reference Include="ConverterLib_x64, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>References\ConverterLib_x64.dll</HintPath>
+    <Reference Include="ConverterLib">
+      <HintPath>References\ConverterLib.dll</HintPath>
     </Reference>
     <Reference Include="ExcelNumberFormat, Version=1.0.3.0, Culture=neutral, PublicKeyToken=23c6f5d73be07eca, processorArchitecture=MSIL">
       <HintPath>..\..\MaxFlex\CVA.Portal\packages\ExcelNumberFormat.1.0.3\lib\net20\ExcelNumberFormat.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.SAPbobsCOM, Version=9.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>Components\Interop.SAPbobsCOM.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.SAPbouiCOM, Version=9.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>Components\Interop.SAPbouiCOM.dll</HintPath>
     </Reference>
     <Reference Include="MailKit, Version=2.5.0.0, Culture=neutral, PublicKeyToken=4e064fe7c44a8f1b, processorArchitecture=MSIL">
       <HintPath>..\..\Produtos\Axe.BillCharge\Axe.BillCharge.Solution\packages\MailKit.2.6.0\lib\net46\MailKit.dll</HintPath>
@@ -164,10 +170,14 @@
     <Compile Include="Attributes\TextFileAttribute.cs" />
     <Compile Include="Attributes\FormAttribute.cs" />
     <Compile Include="DAO\HanaDAO.cs" />
+    <Compile Include="DAO\Resources\Commands.cs" />
+    <Compile Include="DAO\Resources\Hana.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Hana.resx</DependentUpon>
+    </Compile>
     <Compile Include="Enums\TaskSchedulerFrequencyEnum.cs" />
     <Compile Include="Forms\SystemForm.cs" />
-    <Compile Include="Helpers\EmailHelper.cs" />
-    <Compile Include="Helpers\WindowsTaskScheduler.cs" />
     <Compile Include="Models\APIErrorModel.cs" />
     <Compile Include="Models\EmailConfigurationModel.cs" />
     <Compile Include="Models\JsonModel.cs" />
@@ -270,24 +280,6 @@
     <Compile Include="Util\ZipUtil.cs" />
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="SAPbobsCOM">
-      <Guid>{FC8030BE-F5D2-4B8E-8F92-44228FE30090}</Guid>
-      <VersionMajor>9</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="SAPbouiCOM">
-      <Guid>{6048236A-956D-498D-A6F1-9C81C13AB6E8}</Guid>
-      <VersionMajor>9</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </COMReference>
     <COMReference Include="stdole">
       <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
       <VersionMajor>2</VersionMajor>
@@ -299,6 +291,10 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="DAO\Resources\Hana.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Hana.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="DAO\Resources\SQL.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SQL.Designer.cs</LastGenOutput>

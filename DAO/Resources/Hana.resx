@@ -117,41 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Sproc_Exists" xml:space="preserve">
-    <value>IF EXISTS (SELECT * FROM sys.objects WHERE name = '{0}')
-	SELECT 1
-ELSE
-	SELECT 0</value>
-  </data>
-  <data name="UserField_Exists" xml:space="preserve">
-    <value>SELECT TOP 1 1 FROM CUFD WHERE TableID = '{0}' AND AliasID = '{1}'</value>
-  </data>
   <data name="UserField_Get" xml:space="preserve">
-    <value>SELECT FieldID FROM CUFD WHERE TableID = '{0}' AND AliasID = '{1}'</value>
+    <value>SELECT "FieldID" FROM CUFD WHERE "TableID" = '{0}' AND "AliasID" = '{1}';</value>
   </data>
   <data name="UserField_GetByTable" xml:space="preserve">
-    <value>SELECT * FROM CUFD WHERE TableID = '{0}'</value>
+    <value>SELECT *  FROM CUFD  WHERE "TableID" = '{0}';</value>
   </data>
   <data name="UserField_GetKey" xml:space="preserve">
-    <value>SELECT KeyId FROM OUKD WHERE TableName = '{0}' AND KeyName = '{1}'</value>
+    <value>SELECT "KeyId"  FROM OUKD  WHERE "TableName" = '{0}' AND "KeyName" = '{1}';</value>
   </data>
   <data name="UserField_GetValidValues" xml:space="preserve">
-    <value>SELECT UFD1.IndexID FROM CUFD
-                            INNER JOIN UFD1 
-                                ON CUFD.TableID = UFD1.TableID 
-                                AND CUFD.FieldID = UFD1.FieldID
-                         WHERE CUFD.TableID = '{0}' 
-                         AND CUFD.AliasID = '{1}' 
-                         AND UFD1.FldValue = '{2}'</value>
-  </data>
-  <data name="UserField_GetValidValuesFromUserTable" xml:space="preserve">
-    <value>SELECT {0}, {1} FROM [{2}]
-                                 WHERE NOT EXISTS
-                                 (
-                                    SELECT TOP 1 1 FROM UFD1
-                                    WHERE TableID = '{3}'
-                                        AND FieldID = {4}
-                                        AND FldValue = {5}
-                                 )</value>
+    <value>SELECT UFD1."IndexID" 
+FROM CUFD 
+    INNER JOIN UFD1 ON CUFD."TableID" = UFD1."TableID" AND CUFD."FieldID" = UFD1."FieldID" 
+WHERE CUFD."TableID" = '{0}' AND CUFD."AliasID" = '{1}' AND UFD1."FldValue" = '{2}';</value>
   </data>
 </root>
