@@ -65,6 +65,7 @@ namespace SBO.Hub.DAO
             switch (UserTableType)
             {
                 case BoUTBTableType.bott_NoObject:
+                case BoUTBTableType.bott_NoObjectAutoIncrement:
                     return this.SaveNonObjectModel(EnumCrudOperation.Create);
                 default:
                     return this.SaveModel(EnumCrudOperation.Create);
@@ -203,7 +204,7 @@ namespace SBO.Hub.DAO
             CompanyService sCompany = null;
             GeneralService oGeneralService = null;
             GeneralData oGeneralData = null;
-            GeneralDataParams oGeneralParams = null;
+
 
             object code = null;
 
@@ -212,11 +213,12 @@ namespace SBO.Hub.DAO
                 sCompany = SBOApp.Company.GetCompanyService();
                 oGeneralService = sCompany.GetGeneralService(TableName.Replace("@", ""));
                 oGeneralData = (GeneralData)oGeneralService.GetDataInterface(GeneralServiceDataInterfaces.gsGeneralData);
-                oGeneralParams = (GeneralDataParams)oGeneralService.GetDataInterface(GeneralServiceDataInterfaces.gsGeneralDataParams);
+
 
                 if (enumCrudOperation == EnumCrudOperation.Update)
                 {
-                    
+                    GeneralDataParams oGeneralParams = (GeneralDataParams)oGeneralService.GetDataInterface(GeneralServiceDataInterfaces.gsGeneralDataParams);
+
                     try
                     {
                         code = Model.GetType().GetProperty("Code").GetValue(Model, null);
@@ -246,17 +248,21 @@ namespace SBO.Hub.DAO
                 }
                 else
                 {
-                    if (UserTableType == BoUTBTableType.bott_MasterData)
+                    try
                     {
-                        try
-                        {
-                            code = Model.GetType().GetProperty("Code").GetValue(Model, null);
-                        }
-                        catch (Exception ex)
-                        {
-                            code = GetNextCode(TableName).PadLeft(10, '0');
-                            oGeneralData.SetProperty("Code", code);
-                        }
+                        code = Model.GetType().GetProperty("Code").GetValue(Model, null);
+                    }
+                    catch (Exception ex)
+                    {
+
+
+
+
+
+
+                        code = GetNextCode(TableName).PadLeft(10, '0');
+                        oGeneralData.SetProperty("Code", code);
+
                     }
                 }
 
@@ -333,7 +339,7 @@ namespace SBO.Hub.DAO
                 switch (enumCrudOperation)
                 {
                     case EnumCrudOperation.Create:
-                        oGeneralParams = oGeneralService.Add(oGeneralData);
+                        oGeneralService.Add(oGeneralData);
                         break;
                     case EnumCrudOperation.Update:
                         oGeneralService.Update(oGeneralData);
@@ -342,14 +348,14 @@ namespace SBO.Hub.DAO
                         break;
                 }
 
-                if (UserTableType == BoUTBTableType.bott_Document)
-                {
-                    return oGeneralParams.GetProperty("DocEntry").ToString();
-                }
-                else
-                {
-                    return oGeneralParams.GetProperty("Code").ToString();
-                }
+
+
+
+
+
+
+                return code.ToString();
+
             }
             catch (Exception e)
             {
@@ -388,25 +394,40 @@ namespace SBO.Hub.DAO
             UserTable utbUser = SBOApp.Company.UserTables.Item(TableName.Replace("@", ""));
             try
             {
-                string code = String.Empty;
-                bool alreadyExists = false;
-                PropertyInfo propCode = Model.GetType().GetProperty("Code");
-                if (propCode != null)
+                if (UserTableType == BoUTBTableType.bott_NoObject)
+
+
+
                 {
-                    if (propCode.GetValue(Model, null) != null)
+                    string code = String.Empty;
+                    bool alreadyExists = false;
+                    PropertyInfo propCode = Model.GetType().GetProperty("Code");
+                    if (propCode != null)
                     {
-                        code = propCode.GetValue(Model, null).ToString();
-                        alreadyExists = utbUser.GetByKey(code);
+                        if (propCode.GetValue(Model, null) != null)
+                        {
+                            code = propCode.GetValue(Model, null).ToString();
+                            alreadyExists = utbUser.GetByKey(code);
+                        }
+                    }
+                    if (!String.IsNullOrEmpty(code))
+                    {
+                        utbUser.Code = code;
+                    }
+                    else
+                    {
+                        utbUser.Code = CrudDAO.GetNextCode(TableName).PadLeft(10, '0');
+
                     }
                 }
-                if (!String.IsNullOrEmpty(code))
-                {
-                    utbUser.Code = code;
-                }
-                else
-                {
-                    utbUser.Code = CrudDAO.GetNextCode(TableName).PadLeft(10, '0');
-                }
+
+
+
+
+
+
+
+
 
                 PropertyInfo propName = Model.GetType().GetProperty("Name");
                 if (propName != null && propName.GetValue(Model, null) != null)
@@ -1019,7 +1040,7 @@ namespace SBO.Hub.DAO
                                         if (String.IsNullOrEmpty(hubModel.ColumnName))
                                             hubModel.ColumnName = property.Name;
                                         // Se não for DataBaseField não seta nas properties
-                                        if (!hubModel.FillOnSelect)
+                                        if (!hubModel.DataBaseFieldYN && !hubModel.FillOnSelect)
                                         {
                                             break;
                                         }
